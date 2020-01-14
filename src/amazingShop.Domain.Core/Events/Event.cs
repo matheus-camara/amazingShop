@@ -6,10 +6,11 @@ namespace amazingShop.Domain.Core.Events
     {
         public readonly DateTime Timestamp;
 
-        public EventParam Params { get; private set; }
+        protected new static readonly string Type = typeof(Event).Name;
+        protected EventParam Params { get; set; }
 
-        protected Event()
-        {
+        protected Event(): base()
+        {            
             Timestamp = DateTime.Now;
         }
     }

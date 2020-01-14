@@ -7,5 +7,10 @@ namespace amazingShop.Domain.Core.Events
         public Guid Id { get; private set; }
 
         protected static readonly string Type = typeof(Message).Name;
+
+        protected Message()
+        {
+            Id = Guid.NewGuid();
+        }
     }
 }

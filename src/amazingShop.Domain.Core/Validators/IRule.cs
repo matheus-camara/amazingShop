@@ -2,8 +2,8 @@
 
 namespace amazingShop.Domain.Core.Validators
 {
-    public interface IRule<T> where T : Notifiable
+    public interface IRule<T> where T : INotifiable
     {
-        internal void ApplyTo(T target);
+        bool ApplyTo(T target);
     }
 }

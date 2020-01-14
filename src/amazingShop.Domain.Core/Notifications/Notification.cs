@@ -13,5 +13,8 @@ namespace amazingShop.Domain.Core.Notifications
             Id = id;
             Value = value;
         }
+
+        public Notification(string value) : this(Guid.NewGuid(), value) { }
+ 
     }
 }
