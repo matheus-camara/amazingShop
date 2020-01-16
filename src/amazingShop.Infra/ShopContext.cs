@@ -6,9 +6,8 @@ namespace amazingShop.Infra
 {
     public sealed class ShopContext : DbContext
     {
-        public ShopContext(DbContextOptions optionsBuilder) : base(optionsBuilder)
+        public ShopContext(DbContextOptions<ShopContext> optionsBuilder) : base(optionsBuilder)
         {
-            Database.Migrate();
         }
 
         public DbSet<Product> Products { get; }
@@ -17,6 +16,7 @@ namespace amazingShop.Infra
         {
             modelBuilder.UseIdentityColumns();
             modelBuilder.ApplyConfiguration(new ProductMapping());
+            modelBuilder.ApplyConfiguration(new EventMapping());
         }
     }
 }

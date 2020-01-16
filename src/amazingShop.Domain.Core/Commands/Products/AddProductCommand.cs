@@ -1,8 +1,11 @@
-﻿namespace amazingShop.Domain.Core.Commands.Products
+﻿
+namespace amazingShop.Domain.Core.Commands.Products
 {
-    public class AddProductCommand : Command
+    public sealed class AddProductCommand : Command
     {
         public string Name { get; set; }
+
+        public string Description { get; set; }
 
         public double Price { get; set; }
 

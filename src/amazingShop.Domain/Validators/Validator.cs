@@ -1,11 +1,11 @@
-﻿using amazingShop.Domain.Core.Notifications;
+﻿using amazingShop.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace amazingShop.Domain.Core.Validators
+namespace amazingShop.Domain.Validators
 {
-    public class Validator<T> where T : INotifiable
+    public sealed class Validator<T> where T : EntityBase
     {
         private ICollection<IRule<T>> _rules;
 
@@ -27,7 +27,7 @@ namespace amazingShop.Domain.Core.Validators
             return this;
         }
 
-        public void Add(Func<T, bool> action) => Add(new Rule<T>(action));
+        public Validator<T> Add(Func<T, bool> action) => Add(new Rule<T>(action));
 
         public bool Run() => _rules.All(r => r.ApplyTo(_target));
 

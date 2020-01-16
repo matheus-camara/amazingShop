@@ -4,9 +4,9 @@ namespace amazingShop.Domain.Core.Notifications
 {
     public class Notification
     {
-        public readonly Guid Id;
+        public Guid Id { get; }
 
-        public readonly string Value;
+        public string Value { get; }
 
         public Notification(Guid id, string value)
         {

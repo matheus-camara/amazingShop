@@ -1,9 +1,9 @@
 using System;
-using amazingShop.Domain.Core.Notifications;
+using amazingShop.Domain.Entities;
 
-namespace amazingShop.Domain.Core.Validators
+namespace amazingShop.Domain.Validators
 {
-    public class Rule<T> : IRule<T> where T : INotifiable
+    public class Rule<T> : IRule<T> where T : EntityBase
     {
         private Func<T, bool> _function;
 

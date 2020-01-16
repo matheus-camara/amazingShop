@@ -28,6 +28,18 @@ namespace amazingShop.Domain.Core.Notifications
                 Notifications.Add(notification);
         }
 
+        public void AddNotification(IEnumerable<Notification> notifications)
+        {
+            foreach(var notification in notifications)
+            {
+                AddNotification(notification);
+            }
+
+            notifications = null;
+        }
+
         public bool HasNotification => _notifications.Count != default;
+
+        public bool IsValid => !HasNotification;
     }
 }

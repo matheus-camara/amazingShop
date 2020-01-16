@@ -4,13 +4,19 @@ namespace amazingShop.Domain.Core.Events
 {
     public abstract class Event : Message
     {
-        public readonly DateTime Timestamp;
+        private const string _type = "Event";
 
-        protected new static readonly string Type = typeof(Event).Name;
-        protected EventParam Params { get; set; }
+        public DateTime Timestamp { get; }
 
-        protected Event(): base()
+        public string? Data = null;
+
+        protected Event(): base(_type)
         {            
+            Timestamp = DateTime.Now;
+        }
+
+        protected Event(string type) : base(type)
+        {
             Timestamp = DateTime.Now;
         }
     }
