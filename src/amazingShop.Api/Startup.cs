@@ -31,15 +31,19 @@ namespace amazingShop.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IEventHandler<ProductAddedEvent>, ProductAddedEventHandler>();
-            services.AddSingleton<ProductEventRegisterer>();
-
             ConfigureDatabase(services);
             ConfigureMappers(services);
             ConfigureCommandHandlers(services);
             ConfigureRepositories(services);
+            ConfigureEvents(services);
 
             services.AddControllers();
+        }
+
+        public void ConfigureEvents(IServiceCollection services)
+        {
+            services.AddTransient<IEventHandler<ProductAddedEvent>, ProductAddedEventHandler>();
+            services.AddSingleton<ProductEventRegisterer>();
         }
 
         public void ConfigureRepositories(IServiceCollection services)

@@ -38,7 +38,7 @@ namespace amazingShop.Domain.Core.Notifications
             notifications = null;
         }
 
-        public bool HasNotification => _notifications.Count != default;
+        public bool HasNotification => Notifications.Count != default;
 
         public bool IsValid => !HasNotification;
     }

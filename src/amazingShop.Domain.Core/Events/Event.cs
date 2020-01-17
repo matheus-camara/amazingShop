@@ -1,14 +1,15 @@
 using System;
+using Jil;
 
 namespace amazingShop.Domain.Core.Events
 {
-    public abstract class Event : Message
+    public class Event : Message
     {
         private const string _type = "Event";
 
         public DateTime Timestamp { get; }
 
-        public string? Data = null;
+        public string Data { get; private set; }
 
         protected Event(): base(_type)
         {            
@@ -19,5 +20,7 @@ namespace amazingShop.Domain.Core.Events
         {
             Timestamp = DateTime.Now;
         }
+
+        public void GenerateLogData() => Data = Jil.JSON.Serialize(this);
     }
 }
