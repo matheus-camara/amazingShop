@@ -8,16 +8,14 @@ namespace amazingShop.Domain.Events.Products
     {
         private const string _type = "ProductAdded"; 
 
-        public static event EventHandler<ProductAddedEvent> Dispatcher;
+        public static event EventHandler<ProductAddedEvent> Handler;
 
         public Product Added;
 
-        public static void Dispatch(Product added) => new ProductAddedEvent(added);
-
-        private ProductAddedEvent(Product added) : base(_type)
+        public ProductAddedEvent(Product added) : base(_type)
         {
             Added = added;
-            Dispatcher.Invoke("None", this);
-        } 
+        }
+        public override void Dispatch() => Handler.Invoke(string.Empty, this);   
     }
 }

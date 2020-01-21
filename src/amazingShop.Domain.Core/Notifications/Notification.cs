@@ -2,19 +2,16 @@ using System;
 
 namespace amazingShop.Domain.Core.Notifications
 {
-    public class Notification
+    public sealed class Notification
     {
-        public Guid Id { get; }
+        public string Id { get; }
 
         public string Value { get; }
 
-        public Notification(Guid id, string value)
+        public Notification(string code, string value)
         {
-            Id = id;
+            Id = code;
             Value = value;
         }
-
-        public Notification(string value) : this(Guid.NewGuid(), value) { }
- 
     }
 }

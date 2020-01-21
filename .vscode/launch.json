@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/amazingShop.Api/bin/Debug/netcoreapp3.0/amazingShop.Api.dll",
+            "program": "${workspaceFolder}/src/amazingShop.Api/bin/Debug/netcoreapp3.1/amazingShop.Api.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/amazingShop.Api",
             "stopAtEntry": false,

@@ -15,11 +15,11 @@ namespace amazingShop.Infra.Mappings
 
             builder.Ignore(p => p.Notifications);
 
-            builder.Property(p => p.Name).HasMaxLength(60);
+            builder.Property(p => p.Name).HasMaxLength(60).IsRequired();
 
-            builder.Property(p => p.Price);
+            builder.Property(p => p.Price).IsRequired();
 
-            builder.Property(p => p.ImageUrl).HasMaxLength(100);
+            builder.Property(p => p.ImageUrl).HasMaxLength(100).IsRequired();
         }
     }
 }

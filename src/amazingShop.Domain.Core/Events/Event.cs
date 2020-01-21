@@ -1,26 +1,21 @@
 using System;
-using Jil;
 
 namespace amazingShop.Domain.Core.Events
 {
-    public class Event : Message
+    public abstract class Event : Message, IEvent
     {
         private const string _type = "Event";
 
         public DateTime Timestamp { get; }
 
-        public string Data { get; private set; }
-
-        protected Event(): base(_type)
-        {            
-            Timestamp = DateTime.Now;
-        }
+        private Guid Id { get; }
 
         protected Event(string type) : base(type)
         {
             Timestamp = DateTime.Now;
+            Id = Guid.NewGuid();
         }
 
-        public void GenerateLogData() => Data = Jil.JSON.Serialize(this);
+        public abstract void Dispatch();
     }
 }

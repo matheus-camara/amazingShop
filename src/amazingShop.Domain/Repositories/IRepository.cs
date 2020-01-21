@@ -1,12 +1,11 @@
-﻿using amazingShop.Domain.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace amazingShop.Domain.Repositories
 {
-    public interface IRepository<T> where T : EntityBase
+    public interface IRepository<T> where T : class
     {
         Task<IList<T>> GetAsync();
 
@@ -29,8 +28,6 @@ namespace amazingShop.Domain.Repositories
 
         Task<T> FindAsync(long primaryKey);
 
-        Task<TResult> FindAsync<TResult>(long primaryKey, Expression<Func<T, TResult>> selector);
-
         Task<TResult> FindAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector);
 
         Task<long> CountAsync();
@@ -41,6 +38,6 @@ namespace amazingShop.Domain.Repositories
 
         T Edit(T entity);
 
-        void SaveAsync();
+        Task SaveAsync();
     }
 }

@@ -1,27 +1,11 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace amazingShop.Infra.Migrations
 {
-    public partial class firstMigration : Migration
+    public partial class first : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "event",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    Type = table.Column<string>(maxLength: 40, nullable: true),
-                    Timestamp = table.Column<DateTime>(nullable: false),
-                    Data = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_event", x => x.Id)
-                        .Annotation("SqlServer:Clustered", true);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
@@ -42,9 +26,6 @@ namespace amazingShop.Infra.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "event");
-
             migrationBuilder.DropTable(
                 name: "Products");
         }

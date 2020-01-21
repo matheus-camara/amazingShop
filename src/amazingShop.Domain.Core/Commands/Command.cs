@@ -1,5 +1,5 @@
-﻿using amazingShop.Domain.Core.Events;
-using System;
+﻿using System;
+using amazingShop.Domain.Core.Events;
 
 namespace amazingShop.Domain.Core.Commands
 {
@@ -9,7 +9,7 @@ namespace amazingShop.Domain.Core.Commands
 
         public DateTime Timestamp { get; }
 
-        protected Command() : base(_type) 
+        protected Command() : base(_type)
         {
             Timestamp = DateTime.Now;
         }

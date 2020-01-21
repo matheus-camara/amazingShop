@@ -1,25 +1,32 @@
+using System;
+using System.Collections.Generic;
+using System.Globalization;
 using amazingShop.Api.CommandHandlers.Products;
+using amazingShop.Api.Dtos;
+using amazingShop.Api.Localization;
 using amazingShop.Api.Mappers;
 using amazingShop.Api.Mappers.Products;
 using amazingShop.Domain.Core.Commands;
 using amazingShop.Domain.Core.Commands.Products;
 using amazingShop.Domain.Core.Events;
+using amazingShop.Domain.Core.Notifications;
 using amazingShop.Domain.Entities;
 using amazingShop.Domain.Events.Products;
 using amazingShop.Domain.Repositories;
 using amazingShop.Infra;
 using amazingShop.Infra.Repositories.Products;
+using Askmethat.Aspnet.JsonLocalizer.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
 
 namespace amazingShop.Api
 {
-    public class Startup
+    public sealed class Startup
     {
         public Startup(IConfiguration configuration)
         {
@@ -37,28 +44,42 @@ namespace amazingShop.Api
             ConfigureRepositories(services);
             ConfigureEvents(services);
 
+            services.AddSingleton<ProductEventRegisterer>();
+            services.AddJsonLocalization(options =>
+            {
+                options.CacheDuration = TimeSpan.FromDays(999);
+                options.SupportedCultureInfos = new System.Collections.Generic.HashSet<CultureInfo>()
+                {
+                    new CultureInfo("en-US"),
+                    new CultureInfo("pt-BR")
+                };
+            });
+
             services.AddControllers();
         }
 
         public void ConfigureEvents(IServiceCollection services)
         {
             services.AddTransient<IEventHandler<ProductAddedEvent>, ProductAddedEventHandler>();
-            services.AddSingleton<ProductEventRegisterer>();
         }
 
         public void ConfigureRepositories(IServiceCollection services)
         {
-            services.AddTransient<IRepository<Product>, ProductRepository>(); 
+            services.AddScoped<IRepository<Product>, ProductRepository>();
+            services.AddTransient<INotificationFactory, NotificationFactory>();
         }
 
         public void ConfigureCommandHandlers(IServiceCollection services)
         {
             services.AddTransient<ICommandHandler<AddProductCommand>, AddProductCommandHandler>();
+            services.AddTransient<ICommandHandler<GetProductCommand>, GetProductCommandHandler>();
+            services.AddTransient<ICommandHandler<GetProductsCommand>, GetProductsCommandHandler>();
         }
 
         public void ConfigureMappers(IServiceCollection services)
         {
             services.AddTransient<IMapper<AddProductCommand, Product>, ProductMapper>();
+            services.AddTransient<IMapper<Product, ProductDto>, ProductMapper>();
         }
 
         public void ConfigureDatabase(IServiceCollection services)
@@ -75,7 +96,15 @@ namespace amazingShop.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            provider.GetRequiredService<ProductEventRegisterer>().Register();
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("en-US"),
+                SupportedCultures = new List<CultureInfo>()
+                {
+                    new CultureInfo("en-US"),
+                    new CultureInfo("pt-BR")
+                }
+            });
 
             app.UseHttpsRedirection();
 
@@ -88,14 +117,9 @@ namespace amazingShop.Api
                 endpoints.MapControllers();
             });
 
-            OnShutdown(provider, applicationLifetime);
-        }
+            provider.GetRequiredService<ProductEventRegisterer>().Register();
 
-        private void OnShutdown(IServiceProvider provider, IHostApplicationLifetime applicationLifetime)
-        {
-            applicationLifetime.ApplicationStopping.Register(
-                provider.GetRequiredService<ProductEventRegisterer>().Dispose
-            );
+            applicationLifetime.ApplicationStopping.Register(() => provider.GetRequiredService<ProductEventRegisterer>().Dispose());
         }
-  }
+    }
 }

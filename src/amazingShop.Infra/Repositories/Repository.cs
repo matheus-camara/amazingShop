@@ -1,5 +1,4 @@
-﻿using amazingShop.Domain.Entities;
-using amazingShop.Domain.Repositories;
+﻿using amazingShop.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,7 +9,7 @@ using System.Threading.Tasks;
 namespace amazingShop.Infra.Repositories
 {
     public abstract class Repository<Db, T> : IRepository<T>
-        where T : EntityBase
+        where T : class
     where Db : DbContext
     {
         protected DbContext Context { get; set; }
@@ -37,8 +36,6 @@ namespace amazingShop.Infra.Repositories
 
         public virtual async Task<T> FindAsync(long primaryKey) => await Context.FindAsync<T>(primaryKey);
 
-        public virtual async Task<TResult> FindAsync<TResult>(long primaryKey, Expression<Func<T, TResult>> selector) => await RawGet().Where(e => e.Id == primaryKey).Select(selector).SingleOrDefaultAsync();
-
         public virtual async Task<TResult> FindAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector) => await RawGet().Where(predicate).Select(selector).SingleOrDefaultAsync();
 
         public virtual async Task<long> CountAsync() => await Context.Set<T>().LongCountAsync(u => 1 == 1);
@@ -61,7 +58,7 @@ namespace amazingShop.Infra.Repositories
             return Entity;
         }
 
-        public virtual async void SaveAsync() => await Context.SaveChangesAsync();
+        public virtual async Task SaveAsync() => await Context.SaveChangesAsync();
 
         protected Repository(DbContext context)
         {

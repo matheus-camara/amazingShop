@@ -1,10 +1,10 @@
-﻿using amazingShop.Domain.Core.Events;
+﻿using System;
+using amazingShop.Domain.Core.Events;
 using amazingShop.Domain.Events.Products;
-using System;
 
 namespace amazingShop.Api
 {
-    public class ProductEventRegisterer : IDisposable
+    public sealed class ProductEventRegisterer : IDisposable
     {
         private IEventHandler<ProductAddedEvent> ProductAddedHandler;
 
@@ -15,12 +15,12 @@ namespace amazingShop.Api
 
         public void Register()
         {
-            ProductAddedEvent.Dispatcher += ProductAddedHandler.Handle;
+            ProductAddedEvent.Handler += ProductAddedHandler.Handle;
         }
 
         public void Dispose()
         {
-            ProductAddedEvent.Dispatcher -= ProductAddedHandler.Handle;
+            ProductAddedEvent.Handler -= ProductAddedHandler.Handle;
         }
     }
 }
