@@ -1,7 +1,7 @@
-﻿using amazingShop.Domain.Entities;
+﻿using System;
+using amazingShop.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
 
 namespace amazingShop.Infra.Mappings
 {
@@ -19,7 +19,7 @@ namespace amazingShop.Infra.Mappings
 
             builder.Property(p => p.Price).IsRequired();
 
-            builder.Property(p => p.ImageUrl).HasMaxLength(100).IsRequired();
+            builder.Property(p => p.ImageUrl).HasMaxLength(200).IsRequired();
         }
     }
 }

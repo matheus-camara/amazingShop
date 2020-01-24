@@ -1,8 +1,8 @@
 ﻿using System;
 using amazingShop.Domain.Core.Events;
-using amazingShop.Domain.Repositories;
+using amazingShop.Domain.Events.Products;
 
-namespace amazingShop.Domain.Events.Products
+namespace amazingShop.Api.EventHandlers.Products
 {
     public sealed class ProductAddedEventHandler : IEventHandler<ProductAddedEvent>
     {

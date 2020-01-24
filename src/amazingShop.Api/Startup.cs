@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using amazingShop.Api.CommandHandlers.Products;
 using amazingShop.Api.Dtos;
+using amazingShop.Api.EventHandlers.Products;
 using amazingShop.Api.Localization;
 using amazingShop.Api.Mappers;
 using amazingShop.Api.Mappers.Products;
@@ -99,12 +100,18 @@ namespace amazingShop.Api
             app.UseRequestLocalization(new RequestLocalizationOptions
             {
                 DefaultRequestCulture = new RequestCulture("en-US"),
-                SupportedCultures = new List<CultureInfo>()
-                {
-                    new CultureInfo("en-US"),
-                    new CultureInfo("pt-BR")
-                }
+                    SupportedCultures = new List<CultureInfo>()
+                    {
+                        new CultureInfo("en-US"),
+                            new CultureInfo("pt-BR")
+                    }
             });
+
+            app.UseCors(options => options
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+            );
 
             app.UseHttpsRedirection();
 
