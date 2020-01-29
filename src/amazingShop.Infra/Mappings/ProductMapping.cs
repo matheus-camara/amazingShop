@@ -1,5 +1,4 @@
-﻿using System;
-using amazingShop.Domain.Entities;
+﻿using amazingShop.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -15,11 +14,11 @@ namespace amazingShop.Infra.Mappings
 
             builder.Ignore(p => p.Notifications);
 
-            builder.Property(p => p.Name).HasMaxLength(60).IsRequired();
+            builder.Property(p => p.Name).HasMaxLength(70).IsRequired();
 
             builder.Property(p => p.Price).IsRequired();
 
-            builder.Property(p => p.ImageUrl).HasMaxLength(200).IsRequired();
+            builder.Property(p => p.ImageUrl).HasMaxLength(512).IsRequired();
         }
     }
 }
