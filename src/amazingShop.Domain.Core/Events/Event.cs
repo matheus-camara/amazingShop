@@ -2,7 +2,7 @@ using System;
 
 namespace amazingShop.Domain.Core.Events
 {
-    public abstract class Event : Message, IEvent
+    public abstract class Event : Message, IEvent, IEquatable<object>
     {
         private const string _type = "Event";
 
@@ -16,6 +16,21 @@ namespace amazingShop.Domain.Core.Events
             Id = Guid.NewGuid();
         }
 
+        static public bool operator ==(Event one, Event other) => one?.Id == other?.Id;
+
+        static public bool operator !=(Event one, Event other) => !(one?.Id == other?.Id);
         public abstract void Dispatch();
+
+        public override bool Equals(object obj)
+        {
+            return obj is Event @event &&
+                   Timestamp == @event.Timestamp &&
+                   Id.Equals(@event.Id);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Timestamp, Id);
+        }
     }
 }

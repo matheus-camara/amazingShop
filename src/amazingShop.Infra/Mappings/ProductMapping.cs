@@ -14,6 +14,8 @@ namespace amazingShop.Infra.Mappings
 
             builder.Ignore(p => p.Notifications);
 
+            builder.Property(p => p.Description).HasMaxLength(200).IsRequired();
+
             builder.Property(p => p.Name).HasMaxLength(70).IsRequired();
 
             builder.Property(p => p.Price).IsRequired();

@@ -6,6 +6,8 @@ namespace amazingShop.Domain.Core.Commands.Products
 
         public int Skip { get; set; }
 
+        public long Total {get; set;}
+
         public object Result { get; set; }
 
         public override bool IsValid => Result != null;

@@ -29,7 +29,7 @@ namespace amazingShop.Api.Controllers
             var result = await _getProductsHandler.ExecuteAsync(command);
 
             if (result.IsValid)
-                return Ok(result.Result);
+                return Ok(result);
 
             return NoContent();
         }

@@ -23,6 +23,7 @@ namespace amazingShop.Api.CommandHandlers.Products
         public async Task<GetProductsCommand> ExecuteAsync(GetProductsCommand command)
         {
             command.Result = await _repository.GetAsync(command.Skip, command.Take, p => _mapper.Map(p));
+            command.Total = await _repository.CountAsync();
             return command;
         }
     }

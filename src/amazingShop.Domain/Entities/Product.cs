@@ -8,7 +8,7 @@
             Description = description;
             Price = price;
             ImageUrl = imageUrl;
-        }
+        }      
 
         public string Name { get; private set; }
 

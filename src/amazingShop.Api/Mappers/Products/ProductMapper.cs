@@ -9,11 +9,22 @@ namespace amazingShop.Api.Mappers.Products
         public Product Map(AddProductCommand command)
             => command is null 
                 ? null
-                : new Product(name: command.Name, description: command.Description, price: command.Price, imageUrl: command.ImageUrl);
+                : new Product(
+                    name: command.Name,
+                    description: command.Description,
+                    price: command.Price,
+                    imageUrl: command.ImageUrl);
 
         public ProductDto Map(Product command)
             => command is null 
                 ? null
-                : new ProductDto { Id = command.Id, ImageUrl = command.ImageUrl, Name = command.Name, Price = command.Price, Description = command.Description };
+                : new ProductDto
+                { 
+                    Id = command.Id,
+                    ImageUrl = command.ImageUrl,
+                    Name = command.Name,
+                    Price = command.Price,
+                    Description = command.Description
+                };
   }
 }
