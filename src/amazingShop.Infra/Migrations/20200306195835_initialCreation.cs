@@ -2,7 +2,7 @@
 
 namespace amazingShop.Infra.Migrations
 {
-    public partial class EventCreation : Migration
+    public partial class initialCreation : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

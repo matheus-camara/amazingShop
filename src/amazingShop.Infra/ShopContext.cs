@@ -17,6 +17,7 @@ namespace amazingShop.Infra
         {
             modelBuilder.UseIdentityColumns();
             modelBuilder.ApplyConfiguration(new ProductMapping());
+            modelBuilder.ApplyConfiguration(new EventMapping());
         }
     }
 }

@@ -14,7 +14,6 @@ namespace amazingShop.Application.EventHandlers.Products
 
         public async Task Handle(ProductAddedEvent notification, CancellationToken cancellationToken)
         {
-            Console.WriteLine($"Event: {notification.Type} occured at {notification.Timestamp}");
             await _eventRepository.AddAsync(notification);
             await _eventRepository.SaveAsync();
         }
