@@ -30,7 +30,7 @@ namespace amazingShop.Domain.Core.Notifications
 
         public void AddNotification(IEnumerable<Notification> notifications)
         {
-            foreach(var notification in notifications)
+            foreach (var notification in notifications)
             {
                 AddNotification(notification);
             }
@@ -38,7 +38,7 @@ namespace amazingShop.Domain.Core.Notifications
             notifications = null;
         }
 
-        public bool HasNotification => Notifications.Count != default;
+        public bool HasNotification => Notifications.Count != default(int);
 
         public virtual bool IsValid => !HasNotification;
     }

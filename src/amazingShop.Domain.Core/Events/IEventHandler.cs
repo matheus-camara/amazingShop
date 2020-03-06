@@ -1,7 +1,9 @@
+using MediatR;
+
 namespace amazingShop.Domain.Core.Events
 {
-    public interface IEventHandler<T> where T : Event
+    public interface IEventHandler<T> where T : INotification, INotificationHandler<T>
     {
-        void Handle(object sender, T e);
+
     }
 }

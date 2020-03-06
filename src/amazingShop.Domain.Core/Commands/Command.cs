@@ -1,15 +1,17 @@
 ﻿using System;
 using amazingShop.Domain.Core.Events;
+using amazingShop.Domain.Core.Notifications;
+using MediatR;
 
 namespace amazingShop.Domain.Core.Commands
 {
-    public abstract class Command : Message
+    public abstract class Command : Notifiable
     {
         private const string _type = "command";
 
         public DateTime Timestamp { get; }
 
-        protected Command() : base(_type)
+        protected Command()
         {
             Timestamp = DateTime.Now;
         }

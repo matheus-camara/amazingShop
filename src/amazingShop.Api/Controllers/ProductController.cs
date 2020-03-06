@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
-using amazingShop.Domain.Core.Commands;
-using amazingShop.Domain.Core.Commands.Products;
+using amazingShop.Application.Commands.Products;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,23 +10,12 @@ namespace amazingShop.Api.Controllers
     [ApiController, AllowAnonymous]
     public sealed class ProductController : ControllerBase
     {
-        private readonly ICommandHandler<AddProductCommand> _addProductHandler;
-
-        private readonly ICommandHandler<GetProductCommand> _getProductHandler;
-
-        private readonly ICommandHandler<GetProductsCommand> _getProductsHandler;
-
-        public ProductController(ICommandHandler<AddProductCommand> addProductHandler, ICommandHandler<GetProductCommand> getProductHandler, ICommandHandler<GetProductsCommand> getProductsHandler)
-        {
-            _addProductHandler = addProductHandler;
-            _getProductHandler = getProductHandler;
-            _getProductsHandler = getProductsHandler;
-        }
+        private readonly IMediator _mediator;
 
         [HttpGet("{skip:min(0)}/{take:min(1)}")]
         public async Task<IActionResult> GetAsync([FromRoute] GetProductsCommand command)
         {
-            var result = await _getProductsHandler.ExecuteAsync(command);
+            var result = await _mediator.Send(command);
 
             if (result.IsValid)
                 return Ok(result);
@@ -37,7 +26,7 @@ namespace amazingShop.Api.Controllers
         [HttpGet("{id:min(1)}")]
         public async Task<IActionResult> GetAsync([FromRoute] GetProductCommand command)
         {
-            var result = await _getProductHandler.ExecuteAsync(command);
+            var result = await _mediator.Send(command);
 
             if (result.IsValid)
                 return Ok(result.Result);
@@ -48,12 +37,17 @@ namespace amazingShop.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody] AddProductCommand command)
         {
-            var result = await _addProductHandler.ExecuteAsync(command);
+            var result = await _mediator.Send(command);
 
             if (result.IsValid)
                 return Created(nameof(GetAsync), new { result.Name, result.Description, result.ImageUrl, result.Price, result.Timestamp });
             else
                 return BadRequest(command.Notifications);
+        }
+
+        public ProductController(IMediator mediator)
+        {
+            _mediator = mediator;
         }
     }
 }

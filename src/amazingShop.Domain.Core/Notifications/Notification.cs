@@ -1,8 +1,6 @@
-using System;
-
 namespace amazingShop.Domain.Core.Notifications
 {
-    public sealed class Notification
+    public struct Notification
     {
         public string Id { get; }
 

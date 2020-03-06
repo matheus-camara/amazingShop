@@ -1,18 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using amazingShop.Api.CommandHandlers.Products;
-using amazingShop.Api.Dtos;
-using amazingShop.Api.EventHandlers.Products;
 using amazingShop.Api.Localization;
-using amazingShop.Api.Mappers;
-using amazingShop.Api.Mappers.Products;
-using amazingShop.Domain.Core.Commands;
-using amazingShop.Domain.Core.Commands.Products;
-using amazingShop.Domain.Core.Events;
+using amazingShop.Application.Mappers;
 using amazingShop.Domain.Core.Notifications;
 using amazingShop.Domain.Entities;
-using amazingShop.Domain.Events.Products;
 using amazingShop.Domain.Repositories;
 using amazingShop.Infra;
 using amazingShop.Infra.Repositories.Products;
@@ -24,6 +16,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MediatR;
+using System.Reflection;
+using System.Linq;
+using amazingShop.Domain.Core.Events;
+using amazingShop.Infra.Repositories.Events;
 
 namespace amazingShop.Api
 {
@@ -39,17 +36,21 @@ namespace amazingShop.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            ConfigureDatabase(services);
-            ConfigureMappers(services);
-            ConfigureCommandHandlers(services);
-            ConfigureRepositories(services);
-            ConfigureEvents(services);
+            var executingAssembly = Assembly.GetExecutingAssembly();
+            var referencedAssemblies = executingAssembly.GetReferencedAssemblies().Select(a => Assembly.Load(a));
+            var assemblies = new List<Assembly>();
+            assemblies.Add(executingAssembly);
+            assemblies.AddRange(referencedAssemblies);
 
-            services.AddSingleton<ProductEventRegisterer>();
+            services.AddMediatR(assemblies.ToArray());
+            ConfigureMappers.Build(services);
+            ConfigureDatabase(services);
+            ConfigureRepositories(services);
+
             services.AddJsonLocalization(options =>
             {
                 options.CacheDuration = TimeSpan.FromDays(999);
-                options.SupportedCultureInfos = new System.Collections.Generic.HashSet<CultureInfo>()
+                options.SupportedCultureInfos = new HashSet<CultureInfo>()
                 {
                     new CultureInfo("en-US"),
                     new CultureInfo("pt-BR")
@@ -59,28 +60,11 @@ namespace amazingShop.Api
             services.AddControllers();
         }
 
-        public void ConfigureEvents(IServiceCollection services)
-        {
-            services.AddTransient<IEventHandler<ProductAddedEvent>, ProductAddedEventHandler>();
-        }
-
         public void ConfigureRepositories(IServiceCollection services)
         {
             services.AddScoped<IRepository<Product>, ProductRepository>();
+            services.AddScoped<IRepository<Event>, EventRepository>();
             services.AddTransient<INotificationFactory, NotificationFactory>();
-        }
-
-        public void ConfigureCommandHandlers(IServiceCollection services)
-        {
-            services.AddTransient<ICommandHandler<AddProductCommand>, AddProductCommandHandler>();
-            services.AddTransient<ICommandHandler<GetProductCommand>, GetProductCommandHandler>();
-            services.AddTransient<ICommandHandler<GetProductsCommand>, GetProductsCommandHandler>();
-        }
-
-        public void ConfigureMappers(IServiceCollection services)
-        {
-            services.AddTransient<IMapper<AddProductCommand, Product>, ProductMapper>();
-            services.AddTransient<IMapper<Product, ProductDto>, ProductMapper>();
         }
 
         public void ConfigureDatabase(IServiceCollection services)
@@ -100,10 +84,10 @@ namespace amazingShop.Api
             app.UseRequestLocalization(new RequestLocalizationOptions
             {
                 DefaultRequestCulture = new RequestCulture("en-US"),
-                    SupportedCultures = new List<CultureInfo>()
+                SupportedCultures = new List<CultureInfo>()
                     {
                         new CultureInfo("en-US"),
-                            new CultureInfo("pt-BR")
+                        new CultureInfo("pt-BR")
                     }
             });
 
@@ -123,10 +107,6 @@ namespace amazingShop.Api
             {
                 endpoints.MapControllers();
             });
-
-            provider.GetRequiredService<ProductEventRegisterer>().Register();
-
-            applicationLifetime.ApplicationStopping.Register(() => provider.GetRequiredService<ProductEventRegisterer>().Dispose());
         }
     }
 }

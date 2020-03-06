@@ -1,8 +1,9 @@
-﻿
-namespace amazingShop.Domain.Core.Commands.Products
+namespace amazingShop.Application.Dtos
 {
-    public sealed class AddProductCommand : Command
+    public sealed class ProductDto
     {
+        public long Id { get; set; }
+
         public string Name { get; set; }
 
         public string Description { get; set; }

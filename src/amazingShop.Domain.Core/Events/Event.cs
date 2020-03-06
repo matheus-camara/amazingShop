@@ -1,36 +1,32 @@
 using System;
+using MediatR;
+using System.Text.Json;
 
 namespace amazingShop.Domain.Core.Events
 {
-    public abstract class Event : Message, IEvent, IEquatable<object>
+    public abstract class Event : INotification
     {
-        private const string _type = "Event";
-
         public DateTime Timestamp { get; }
 
-        private Guid Id { get; }
+        public long Id { get; }
 
-        protected Event(string type) : base(type)
+        private string _data;
+        public string Data
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_data))
+                    _data = JsonSerializer.Serialize(this);
+
+                return _data;
+            }
+        }
+
+        public virtual string Type => "Event";
+
+        protected Event()
         {
             Timestamp = DateTime.Now;
-            Id = Guid.NewGuid();
-        }
-
-        static public bool operator ==(Event one, Event other) => one?.Id == other?.Id;
-
-        static public bool operator !=(Event one, Event other) => !(one?.Id == other?.Id);
-        public abstract void Dispatch();
-
-        public override bool Equals(object obj)
-        {
-            return obj is Event @event &&
-                   Timestamp == @event.Timestamp &&
-                   Id.Equals(@event.Id);
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Timestamp, Id);
         }
     }
 }
