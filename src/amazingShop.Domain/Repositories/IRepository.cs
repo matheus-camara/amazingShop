@@ -24,11 +24,11 @@ namespace amazingShop.Domain.Repositories
 
         Task<IList<T>> GetAsync(int skip, int take, Expression<Func<T, bool>> predicate);
 
-        Task<T> FindAsync(Expression<Func<T, bool>> predicate);
+        Task<T?> FindAsync(Expression<Func<T, bool>> predicate);
 
-        Task<T> FindAsync(long primaryKey);
+        Task<T?> FindAsync(long primaryKey);
 
-        Task<TResult> FindAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector);
+        Task<TResult?> FindAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector) where TResult : class;
 
         Task<long> CountAsync();
 

@@ -11,7 +11,7 @@ namespace amazingShop.Infra
             Database.Migrate();
         }
 
-        public DbSet<Product> Products { get; }
+        public DbSet<Product> Products { get; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

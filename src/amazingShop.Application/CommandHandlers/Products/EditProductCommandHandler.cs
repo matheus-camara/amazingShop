@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using amazingShop.Application.Commands.Products;
@@ -12,7 +12,7 @@ using MediatR;
 
 namespace amazingShop.Application.CommandHandlers.Products
 {
-    public sealed class AddProductCommandHandler : IRequestHandler<AddProductCommand, AddProductCommand>
+    public sealed class EditProductCommandHandler : IRequestHandler<EditProductCommand, EditProductCommand>
     {
         private readonly IRepository<Product> _repository;
 
@@ -20,9 +20,9 @@ namespace amazingShop.Application.CommandHandlers.Products
 
         private readonly INotificationFactory _notificationFactory;
 
-        private readonly Func<AddProductCommand?, Product> _mapper;
+        private readonly Func<EditProductCommand?, Product> _mapper;
 
-        public async Task<AddProductCommand> Handle(AddProductCommand request, CancellationToken cancellationToken)
+        public async Task<EditProductCommand> Handle(EditProductCommand request, CancellationToken cancellationToken)
         {
             var product = _mapper.Invoke(request);
 
@@ -32,9 +32,14 @@ namespace amazingShop.Application.CommandHandlers.Products
 
             if (product.IsValid)
             {
-                await _repository.AddAsync(product);
-                await _repository.SaveAsync();
-                await _mediator.Publish<ProductAddedEvent>(new ProductAddedEvent(product));
+                var found = await _repository.FindAsync(product.Id);
+                if (found != null)
+                {
+                    found.Update(product);
+                    _repository.Edit(found);
+                    await _repository.SaveAsync();
+                    await _mediator.Publish<ProductAddedEvent>(new ProductAddedEvent(product));
+                }
             }
             else
             {
@@ -44,7 +49,7 @@ namespace amazingShop.Application.CommandHandlers.Products
             return request;
         }
 
-        public AddProductCommandHandler(IRepository<Product> repository, IMediator mediator, INotificationFactory notificationFactory, Func<AddProductCommand?, Product> mapper)
-            => (_repository, _mediator, _notificationFactory, _mapper) = (repository, mediator, notificationFactory, mapper);
+        public EditProductCommandHandler(IRepository<Product> repository, IMediator mediator, INotificationFactory notificationFactory, Func<EditProductCommand?, Product> mapper)
+            => (_mediator, _repository, _notificationFactory, _mapper) = (mediator, repository, notificationFactory, mapper);
     }
 }

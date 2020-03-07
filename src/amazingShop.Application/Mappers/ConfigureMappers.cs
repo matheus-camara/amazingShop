@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using amazingShop.Application.Commands.Products;
 using amazingShop.Application.Dtos;
 using amazingShop.Domain.Entities;
@@ -8,31 +9,35 @@ namespace amazingShop.Application.Mappers
 {
     public class ConfigureMappers
     {
-
         public static void Build(IServiceCollection services)
         {
-            services.AddTransient<Func<AddProductCommand, Product>>(p => Map);
+            services.AddTransient<Func<AddProductCommand?, Product>>(p => Map);
+            services.AddTransient<Func<EditProductCommand?, Product>>(p => Map);
             services.AddTransient<Func<Product, ProductDto>>(p => Map);
         }
-        public static Product Map(AddProductCommand command)
-            => command is null
-                ? null
-                : new Product(
-                    name: command.Name,
-                    description: command.Description,
-                    price: command.Price,
-                    imageUrl: command.ImageUrl);
+        public static Product Map(AddProductCommand? command)
+            => new Product(
+                    name: command?.Name ?? default!,
+                    description: command?.Description ?? default!,
+                    price: command?.Price ?? default!,
+                    imageUrl: command?.ImageUrl ?? default!);
+
+        public static Product Map(EditProductCommand? command)
+            => new Product(
+                    id: command?.Id ?? default!,
+                    name: command?.Name ?? default!,
+                    description: command?.Description ?? default!,
+                    price: command?.Price ?? default!,
+                    imageUrl: command?.ImageUrl ?? default!);
 
         public static ProductDto Map(Product command)
-            => command is null
-                ? null
-                : new ProductDto
-                {
-                    Id = command.Id,
-                    ImageUrl = command.ImageUrl,
-                    Name = command.Name,
-                    Price = command.Price,
-                    Description = command.Description
-                };
+            => new ProductDto
+            {
+                Id = command.Id,
+                ImageUrl = command.ImageUrl,
+                Name = command.Name,
+                Price = command.Price,
+                Description = command.Description
+            };
     }
 }

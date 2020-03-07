@@ -1,6 +1,9 @@
-namespace amazingShop.Application.Dtos
+using amazingShop.Domain.Core.Commands;
+using MediatR;
+
+namespace amazingShop.Application.Commands.Products
 {
-    public sealed class ProductDto
+    public class EditProductCommand : Command, IRequest<EditProductCommand>
     {
         public long Id { get; set; } = default!;
 

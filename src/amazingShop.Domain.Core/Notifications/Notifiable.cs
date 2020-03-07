@@ -4,7 +4,7 @@ namespace amazingShop.Domain.Core.Notifications
 {
     public abstract class Notifiable : INotifiable
     {
-        private List<Notification> _notifications;
+        private List<Notification>? _notifications;
 
         public List<Notification> Notifications
         {
@@ -34,11 +34,9 @@ namespace amazingShop.Domain.Core.Notifications
             {
                 AddNotification(notification);
             }
-
-            notifications = null;
         }
 
-        public bool HasNotification => Notifications.Count != default(int);
+        public bool HasNotification => _notifications?.Count != default(int);
 
         public virtual bool IsValid => !HasNotification;
     }

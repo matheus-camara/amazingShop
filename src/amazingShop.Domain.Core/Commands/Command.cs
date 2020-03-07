@@ -7,8 +7,6 @@ namespace amazingShop.Domain.Core.Commands
 {
     public abstract class Command : Notifiable
     {
-        private const string _type = "command";
-
         public DateTime Timestamp { get; }
 
         protected Command()

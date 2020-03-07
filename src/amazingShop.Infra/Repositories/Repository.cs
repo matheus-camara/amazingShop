@@ -32,11 +32,12 @@ namespace amazingShop.Infra.Repositories
 
         public virtual async Task<IList<T>> GetAsync(Expression<Func<T, bool>> predicate) => await RawGet().Where(predicate).ToListAsync();
 
-        public virtual async Task<T> FindAsync(Expression<Func<T, bool>> predicate) => await RawGet().SingleOrDefaultAsync(predicate);
+        public virtual async Task<T?> FindAsync(Expression<Func<T, bool>> predicate) => await RawGet().SingleOrDefaultAsync(predicate);
 
-        public virtual async Task<T> FindAsync(long primaryKey) => await Context.FindAsync<T>(primaryKey);
+        public virtual async Task<T?> FindAsync(long primaryKey) => await Context.FindAsync<T>(primaryKey);
 
-        public virtual async Task<TResult> FindAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector) => await RawGet().Where(predicate).Select(selector).SingleOrDefaultAsync();
+        public virtual async Task<TResult?> FindAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector) where TResult : class
+            => await RawGet().Where(predicate).Select(selector).SingleOrDefaultAsync(null);
 
         public virtual async Task<long> CountAsync() => await Context.Set<T>().LongCountAsync(u => 1 == 1);
 

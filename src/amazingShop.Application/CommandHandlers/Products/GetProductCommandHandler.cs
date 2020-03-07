@@ -6,6 +6,7 @@ using amazingShop.Domain.Repositories;
 using amazingShop.Application.Commands.Products;
 using MediatR;
 using System.Threading;
+using amazingShop.Domain.Core.Notifications;
 
 namespace amazingShop.Application.CommandHandlers.Products
 {
@@ -13,17 +14,17 @@ namespace amazingShop.Application.CommandHandlers.Products
     {
         private readonly IRepository<Product> _repository;
 
+        private readonly INotificationFactory _notificationFactory;
+
         private readonly Func<Product, ProductDto> _mapper;
 
-        public GetProductCommandHandler(IRepository<Product> repository, Func<Product, ProductDto> mapper)
-        {
-            _repository = repository;
-            _mapper = mapper;
-        }
+        public GetProductCommandHandler(IRepository<Product> repository, INotificationFactory notificationFactory, Func<Product, ProductDto> mapper)
+            => (_repository, _notificationFactory, _mapper) = (repository, notificationFactory, mapper);
 
         public async Task<GetProductCommand> Handle(GetProductCommand request, CancellationToken cancellationToken)
         {
-            request.Result = _mapper.Invoke(await _repository.FindAsync(request.Id));
+            var result = await _repository.FindAsync(request.Id);
+            request.Result = result is null ? null : _mapper.Invoke(result);
             return request;
         }
     }

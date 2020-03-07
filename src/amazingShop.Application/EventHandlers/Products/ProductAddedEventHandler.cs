@@ -18,9 +18,6 @@ namespace amazingShop.Application.EventHandlers.Products
             await _eventRepository.SaveAsync();
         }
 
-        public ProductAddedEventHandler(IRepository<Event> eventRepository)
-        {
-            _eventRepository = eventRepository;
-        }
+        public ProductAddedEventHandler(IRepository<Event> eventRepository) => _eventRepository = eventRepository;
     }
 }

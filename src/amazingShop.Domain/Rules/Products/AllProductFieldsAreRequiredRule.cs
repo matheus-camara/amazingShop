@@ -13,7 +13,7 @@ namespace amazingShop.Domain.Rules.Products
 
         public override bool ApplyTo(Product target)
         {
-            if (string.IsNullOrEmpty(target.Name) || string.IsNullOrEmpty(target.ImageUrl) || target.Price == default(double))
+            if (string.IsNullOrEmpty(target.Name) || string.IsNullOrEmpty(target.Description) || string.IsNullOrEmpty(target.ImageUrl) || target.Price == default(double))
                 target.AddNotification(Notifications);
 
             return target.IsValid;

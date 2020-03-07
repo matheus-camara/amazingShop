@@ -8,9 +8,6 @@ namespace amazingShop.Domain.Events.Products
     {
         public Product Added;
 
-        public ProductAddedEvent(Product added)
-        {
-            Added = added;
-        }
+        public ProductAddedEvent(Product added) => Added = added;
     }
 }

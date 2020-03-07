@@ -45,9 +45,30 @@ namespace amazingShop.Api.Controllers
                 return BadRequest(command.Notifications);
         }
 
-        public ProductController(IMediator mediator)
+        [HttpPut("{id:min(1)}")]
+        public async Task<IActionResult> PutAsync([FromRoute] long id, [FromBody] EditProductCommand command)
         {
-            _mediator = mediator;
+            var result = await _mediator.Send(command);
+
+            if (result.IsValid)
+                return Ok();
+            else
+                return BadRequest(command.Notifications);
         }
+
+        [HttpDelete("{id:min(1)}")]
+        public async Task<IActionResult> DeleteAsync([FromRoute] DeleteProductCommand command)
+        {
+            var result = await _mediator.Send(command);
+
+            if (result.IsValid)
+                return Ok();
+            else
+                return BadRequest(command.Notifications);
+        }
+
+        public ProductController(IMediator mediator)
+            => (_mediator) = (mediator);
+
     }
 }
