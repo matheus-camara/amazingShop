@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using amazingShop.Application.Commands.Products;
+using amazingShop.Domain.Commands.Products;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +29,7 @@ namespace amazingShop.Api.Controllers
             var result = await _mediator.Send(command);
 
             if (result.IsValid)
-                return Ok(result.Result);
+                return Ok(new { result.Result });
 
             return NotFound(command);
         }
@@ -40,7 +40,7 @@ namespace amazingShop.Api.Controllers
             var result = await _mediator.Send(command);
 
             if (result.IsValid)
-                return Created(nameof(GetAsync), new { result.Name, result.Description, result.ImageUrl, result.Price, result.Timestamp });
+                return Created(nameof(GetAsync), new { result });
             else
                 return BadRequest(command.Notifications);
         }
@@ -69,6 +69,5 @@ namespace amazingShop.Api.Controllers
 
         public ProductController(IMediator mediator)
             => (_mediator) = (mediator);
-
     }
 }
