@@ -1,7 +1,7 @@
 using amazingShop.Domain.Core.Commands;
 using MediatR;
 
-namespace amazingShop.Application.Commands.Products
+namespace amazingShop.Domain.Commands.Products
 {
     public sealed class DeleteProductCommand : Command, IRequest<DeleteProductCommand>
     {

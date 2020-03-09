@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using amazingShop.Application.Commands.Products;
+using amazingShop.Domain.Commands.Products;
 using amazingShop.Domain.Core.Notifications;
 using amazingShop.Domain.Core.Validators;
 using amazingShop.Domain.Entities;
@@ -20,7 +20,7 @@ namespace amazingShop.Application.CommandHandlers.Products
 
         private readonly INotificationFactory _notificationFactory;
 
-        private readonly Func<AddProductCommand?, Product> _mapper;
+        private readonly Func<AddProductCommand, Product> _mapper;
 
         public async Task<AddProductCommand> Handle(AddProductCommand request, CancellationToken cancellationToken)
         {
