@@ -8,7 +8,7 @@ namespace amazingShop.Infra.Mappings
     {
         public void Configure(EntityTypeBuilder<Event> builder)
         {
-            builder.ToTable("Events");
+            builder.ToTable("Event");
 
             builder.HasKey(P => P.Id).IsClustered();
 
