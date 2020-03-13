@@ -1,7 +1,8 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using amazingShop.Domain.Commands.Products;
+using amazingShop.Api.Commands.Products;
+using amazingShop.Domain.Core.Commands;
 using amazingShop.Domain.Core.Notifications;
 using amazingShop.Domain.Core.Validators;
 using amazingShop.Domain.Entities;
@@ -10,9 +11,9 @@ using amazingShop.Domain.Repositories;
 using amazingShop.Domain.Rules.Products;
 using MediatR;
 
-namespace amazingShop.Application.CommandHandlers.Products
+namespace amazingShop.Api.CommandHandlers.Products
 {
-    public sealed class EditProductCommandHandler : IRequestHandler<EditProductCommand, EditProductCommand>
+    public sealed class EditProductCommandHandler : ICommandHandler<EditProductCommand>
     {
         private readonly IRepository<Product> _repository;
 

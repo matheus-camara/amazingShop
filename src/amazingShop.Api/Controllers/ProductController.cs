@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using amazingShop.Domain.Commands.Products;
+using amazingShop.Api.Commands.Products;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

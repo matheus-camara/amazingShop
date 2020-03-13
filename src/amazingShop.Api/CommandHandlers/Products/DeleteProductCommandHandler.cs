@@ -1,14 +1,14 @@
 using System.Threading;
 using System.Threading.Tasks;
-using amazingShop.Domain.Commands.Products;
+using amazingShop.Api.Commands.Products;
+using amazingShop.Domain.Core.Commands;
 using amazingShop.Domain.Core.Notifications;
 using amazingShop.Domain.Entities;
 using amazingShop.Domain.Repositories;
-using MediatR;
 
-namespace amazingShop.Application.CommandHandlers.Products
+namespace amazingShop.Api.CommandHandlers.Products
 {
-    public sealed class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand, DeleteProductCommand>
+    public sealed class DeleteProductCommandHandler : ICommandHandler<DeleteProductCommand>
     {
         private readonly IRepository<Product> _repository;
 

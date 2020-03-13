@@ -1,4 +1,4 @@
-namespace amazingShop.Application.Dtos
+namespace amazingShop.Api.Dtos
 {
     public sealed class ProductDto
     {

@@ -1,31 +1,18 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace amazingShop.Domain.Core.Notifications
 {
     public abstract class Notifiable : INotifiable
     {
-        private List<Notification>? _notifications;
+        private IEnumerable<Notification>? _notifications;
 
-        public List<Notification> Notifications
-        {
-            get
-            {
-                if (_notifications is null)
-                    _notifications = new List<Notification>();
-
-                return _notifications;
-            }
-
-            private set
-            {
-                _notifications = value;
-            }
-        }
+        public IEnumerable<Notification> Notifications { get => _notifications ??= new List<Notification>(); }
 
         public void AddNotification(Notification notification)
         {
             if (!Notifications.Contains(notification))
-                Notifications.Add(notification);
+                _notifications = _notifications?.Append(notification);
         }
 
         public void AddNotification(IEnumerable<Notification> notifications)
@@ -36,7 +23,7 @@ namespace amazingShop.Domain.Core.Notifications
             }
         }
 
-        public bool HasNotification => _notifications?.Count != default(int);
+        public bool HasNotification => _notifications?.Count() != default(int);
 
         public virtual bool IsValid => !HasNotification;
     }

@@ -10,7 +10,6 @@
     <ProjectReference Include="..\amazingShop.Domain.Core\amazingShop.Domain.Core.csproj" />
     <ProjectReference Include="..\amazingShop.Domain\amazingShop.Domain.csproj" />
     <ProjectReference Include="..\amazingShop.Infra\amazingShop.Infra.csproj" />
-    <ProjectReference Include="..\amazingShop.Application\amazingShop.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>

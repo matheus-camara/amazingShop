@@ -6,7 +6,7 @@ using amazingShop.Domain.Events.Products;
 using amazingShop.Domain.Repositories;
 using MediatR;
 
-namespace amazingShop.Application.EventHandlers.Products
+namespace amazingShop.Api.EventHandlers.Products
 {
     public sealed class ProductAddedEventHandler : INotificationHandler<ProductAddedEvent>
     {

@@ -1,7 +1,7 @@
 using amazingShop.Domain.Core.Commands;
 using MediatR;
 
-namespace amazingShop.Domain.Commands.Products
+namespace amazingShop.Api.Commands.Products
 {
     public sealed class EditProductCommand : Command, IRequest<EditProductCommand>
     {

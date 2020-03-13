@@ -1,10 +1,10 @@
 using System;
-using amazingShop.Domain.Commands.Products;
-using amazingShop.Application.Dtos;
+using amazingShop.Api.Commands.Products;
+using amazingShop.Api.Dtos;
 using amazingShop.Domain.Entities;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace amazingShop.Application.Mappers
+namespace amazingShop.Api.Mappers
 {
     public class ConfigureMappers
     {

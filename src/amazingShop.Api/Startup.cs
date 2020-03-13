@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using amazingShop.Api.Localization;
-using amazingShop.Application.Mappers;
+using amazingShop.Api.Mappers;
 using amazingShop.Domain.Core.Events;
 using amazingShop.Domain.Core.Notifications;
 using amazingShop.Domain.Entities;

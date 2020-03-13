@@ -1,16 +1,16 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using amazingShop.Domain.Commands.Products;
-using amazingShop.Application.Dtos;
+using amazingShop.Api.Commands.Products;
+using amazingShop.Api.Dtos;
 using amazingShop.Domain.Core.Notifications;
 using amazingShop.Domain.Entities;
 using amazingShop.Domain.Repositories;
-using MediatR;
+using amazingShop.Domain.Core.Commands;
 
-namespace amazingShop.Application.CommandHandlers.Products
+namespace amazingShop.Api.CommandHandlers.Products
 {
-    public sealed class GetProductsCommandHandler : IRequestHandler<GetProductsCommand, GetProductsCommand>
+    public sealed class GetProductsCommandHandler : ICommandHandler<GetProductsCommand>
     {
         private readonly IRepository<Product> _repository;
 
