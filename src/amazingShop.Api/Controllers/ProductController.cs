@@ -51,7 +51,7 @@ namespace amazingShop.Api.Controllers
             var result = await _mediator.Send(command);
 
             if (result.IsValid)
-                return Ok();
+                return Accepted();
             else
                 return BadRequest(command.Notifications);
         }

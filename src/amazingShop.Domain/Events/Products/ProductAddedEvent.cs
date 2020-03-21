@@ -6,8 +6,12 @@ namespace amazingShop.Domain.Events.Products
 {
     public sealed class ProductAddedEvent : Event, INotification
     {
-        public Product Added;
+        private Product Added { get; set; }
 
-        public ProductAddedEvent(Product added) => Added = added;
+        public ProductAddedEvent(Product added)
+        {
+            Added = added;
+            SaveData();
+        }
     }
 }

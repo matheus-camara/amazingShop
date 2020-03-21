@@ -68,8 +68,8 @@ namespace amazingShop.Api
 
         public void ConfigureDatabase(IServiceCollection services)
         {
-            services.AddDbContext<ShopContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AmazingShopLocal")));
-            services.AddDbContext<DbContext, ShopContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AmazingShopLocal")));
+            services.AddDbContext<ShopContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AmazingShop")));
+            services.AddDbContext<DbContext, ShopContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AmazingShop")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -85,8 +85,8 @@ namespace amazingShop.Api
                 DefaultRequestCulture = new RequestCulture("en-US"),
                 SupportedCultures = new List<CultureInfo>()
                 {
-                        new CultureInfo ("en-US"),
-                        new CultureInfo ("pt-BR")
+                    new CultureInfo ("en-US"),
+                    new CultureInfo ("pt-BR")
                 }
             });
 
@@ -96,7 +96,7 @@ namespace amazingShop.Api
                .AllowAnyHeader()
             );
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 

@@ -23,7 +23,7 @@ namespace amazingShop.Api.Mappers
 
         public static Product Map(EditProductCommand command)
             => new Product(
-                    id: command.Id ?? default!,
+                    id: command.Id,
                     name: command.Name ?? default!,
                     description: command.Description ?? default!,
                     price: command.Price ?? default!,

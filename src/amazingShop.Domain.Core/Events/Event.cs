@@ -1,20 +1,25 @@
 using System;
 using MediatR;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace amazingShop.Domain.Core.Events
 {
     public class Event : INotification
     {
-        public DateTime Timestamp { get; }
+        public long Id { get; } = default!;
 
-        public long Id { get; }
+        public DateTime Timestamp { get; private set; } = default!;
 
-        public string Type { get; private set; }
+        public string Type { get; private set; } = default!;
 
-        protected Event()
+        public string Data { get; private set; } = default!;
+
+        protected void SaveData()
         {
-            Type = this.GetType().Name;
             Timestamp = DateTime.Now;
+            Type = this.GetType().Name;
+            Data = JsonSerializer.Serialize(this);
         }
     }
 }

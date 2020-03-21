@@ -35,7 +35,7 @@ namespace amazingShop.Api.CommandHandlers.Products
             {
                 await _repository.AddAsync(product);
                 await _repository.SaveAsync();
-                await _mediator.Publish<ProductAddedEvent>(new ProductAddedEvent(product));
+                await _mediator.Publish(new ProductAddedEvent(product));
             }
             else
             {

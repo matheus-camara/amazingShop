@@ -36,10 +36,10 @@ namespace amazingShop.Api.CommandHandlers.Products
                 var found = await _repository.FindAsync(product.Id);
                 if (found != null)
                 {
+                    await _mediator.Publish(new ProductEditedEvent(default, found, product));
                     found.Update(product);
                     _repository.Edit(found);
                     await _repository.SaveAsync();
-                    await _mediator.Publish<ProductAddedEvent>(new ProductAddedEvent(product));
                 }
             }
             else

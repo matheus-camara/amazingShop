@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="mediatr" Version="8.0.1" />
+    <PackageReference Include="system.text.json" Version="4.7.1" />
   </ItemGroup>
 
 </Project>

@@ -5,7 +5,7 @@ namespace amazingShop.Api.Commands.Products
 {
     public sealed class EditProductCommand : Command, IRequest<EditProductCommand>
     {
-        public long? Id { get; set; }
+        public long Id { get; set; } = default!;
 
         public string? Name { get; set; }
 
