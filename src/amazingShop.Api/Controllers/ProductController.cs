@@ -18,7 +18,7 @@ namespace amazingShop.Api.Controllers
             var result = await _mediator.Send(command);
 
             if (result.IsValid)
-                return Ok(result);
+                return Ok(new { result.Result });
 
             return NoContent();
         }
@@ -31,7 +31,7 @@ namespace amazingShop.Api.Controllers
             if (result.IsValid)
                 return Ok(new { result.Result });
 
-            return NotFound(command);
+            return NotFound(command.Notifications);
         }
 
         [HttpPost]
@@ -40,7 +40,7 @@ namespace amazingShop.Api.Controllers
             var result = await _mediator.Send(command);
 
             if (result.IsValid)
-                return Created(nameof(GetAsync), new { result });
+                return Created(nameof(GetAsync), new { result.Result });
             else
                 return BadRequest(command.Notifications);
         }

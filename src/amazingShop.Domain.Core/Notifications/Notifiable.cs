@@ -23,7 +23,7 @@ namespace amazingShop.Domain.Core.Notifications
             }
         }
 
-        public bool HasNotification => _notifications?.Count() != default(int);
+        public bool HasNotification => _notifications?.Any() ?? false;
 
         public virtual bool IsValid => !HasNotification;
     }

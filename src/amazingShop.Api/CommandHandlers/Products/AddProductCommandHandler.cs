@@ -28,7 +28,7 @@ namespace amazingShop.Api.CommandHandlers.Products
             var product = _mapper.Invoke(request);
 
             new Validator<Product>(product)
-                .Add(new AllProductFieldsAreRequiredRule(_notificationFactory.Get("PRO-001")))
+                .Add(new AllProductFieldsAreRequiredRule(() => _notificationFactory.Get("PRO-001")))
                 .Run();
 
             if (product.IsValid)
@@ -36,6 +36,7 @@ namespace amazingShop.Api.CommandHandlers.Products
                 await _repository.AddAsync(product);
                 await _repository.SaveAsync();
                 await _mediator.Publish(new ProductAddedEvent(product));
+                request.Result = product.Id;
             }
             else
             {

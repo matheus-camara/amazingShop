@@ -1,28 +1,22 @@
+using System;
 using amazingShop.Domain.Core.Notifications;
 
 namespace amazingShop.Domain.Core.Validators
 {
-	public abstract class Rule<T> : IRule<T> where T : class
-	{
-		private Notification[] _notifications;
+    public abstract class Rule<T> : IRule<T> where T : class
+    {
+        private Func<Notification>[] _notifications;
 
-		protected Notification[] Notifications
-		{
-			get
-			{
-				if (_notifications is null)
-					_notifications = new Notification[0];
+        protected Func<Notification>[] Notifications
+        {
+            get => _notifications ??= Array.Empty<Func<Notification>>();
+        }
 
-				return _notifications;
-			}
+        public Rule(params Func<Notification>[] notificationsFactory)
+        {
+            _notifications = notificationsFactory;
+        }
 
-		}
-
-		public Rule(params Notification[] notifications)
-		{
-			_notifications = notifications;
-		}
-
-		public abstract bool ApplyTo(T target);
-	}
+        public abstract bool ApplyTo(T target);
+    }
 }

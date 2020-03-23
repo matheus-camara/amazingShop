@@ -68,8 +68,8 @@ namespace amazingShop.Api
 
         public void ConfigureDatabase(IServiceCollection services)
         {
-            services.AddDbContext<ShopContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AmazingShop")));
-            services.AddDbContext<DbContext, ShopContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AmazingShop")));
+            services.AddDbContext<ShopContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AmazingShopLocal")));
+            services.AddDbContext<DbContext, ShopContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AmazingShopLocal")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

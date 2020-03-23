@@ -6,6 +6,8 @@ namespace amazingShop.Api.Commands.Products
 {
     public sealed class AddProductCommand : Command, IRequest<AddProductCommand>
     {
+        public long? Result { get; set; }
+
         public string? Name { get; set; }
 
         public string? Description { get; set; }
