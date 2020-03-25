@@ -1,0 +1,15 @@
+namespace amazingShop.Api.Dtos
+{
+    public class UserDto
+    {
+        public string Name { get; }
+
+        public string Email { get; set; }
+
+        public UserDto(string name, string email)
+        {
+            Name = name;
+            Email = email;
+        }
+    }
+}

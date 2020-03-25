@@ -17,6 +17,6 @@ namespace amazingShop.Domain.Core.Validators
             _notifications = notificationsFactory;
         }
 
-        public abstract bool ApplyTo(T target);
+        public abstract void ApplyTo(T target);
     }
 }

@@ -2,6 +2,6 @@
 {
     public interface IRule<T> where T : class
     {
-        bool ApplyTo(T target);
+        void ApplyTo(T target);
     }
 }

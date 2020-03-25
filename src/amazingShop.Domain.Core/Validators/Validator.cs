@@ -5,15 +5,11 @@ namespace amazingShop.Domain.Core.Validators
 {
     public sealed class Validator<T> where T : class
     {
-        private ICollection<IRule<T>> _rules;
+        private ICollection<IRule<T>> _rules { get => _rules ??= new List<IRule<T>>(); set => _rules = value; }
 
         private T _target;
 
-        public Validator(T target)
-        {
-            _target = target;
-            _rules = new List<IRule<T>>();
-        }
+        public Validator(T target) => _target = target;
 
         public Validator<T> Add(IRule<T> rule)
         {
@@ -21,6 +17,10 @@ namespace amazingShop.Domain.Core.Validators
             return this;
         }
 
-        public bool Run() => _rules.All(r => r.ApplyTo(_target));
+        public void Run()
+        {
+            foreach (var rule in _rules)
+                rule.ApplyTo(_target);
+        }
     }
 }

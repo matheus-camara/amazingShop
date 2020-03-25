@@ -16,7 +16,7 @@ namespace amazingShop.Infra.Mappings
 
             builder.Property(p => p.Timestamp).IsRequired();
 
-            builder.Property(p => p.Data);
+            builder.Property(p => p.Data).IsRequired();
         }
     }
 }

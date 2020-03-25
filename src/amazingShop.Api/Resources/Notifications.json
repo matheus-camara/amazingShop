@@ -5,6 +5,12 @@
       "pt-BR": "Todos os campos são obrigatórios"
     }
   },
+  "USE-001": {
+    "Values": {
+      "en-US": "All Fields are required",
+      "pt-BR": "Todos os campos são obrigatórios"
+    }
+  },
   "APP-001": {
     "Values": {
       "en-US": "Invalid Identifier",

@@ -12,12 +12,10 @@ namespace amazingShop.Domain.Rules.Products
         {
         }
 
-        public override bool ApplyTo(Product target)
+        public override void ApplyTo(Product target)
         {
             if (string.IsNullOrEmpty(target.Name) || string.IsNullOrEmpty(target.Description) || string.IsNullOrEmpty(target.ImageUrl) || target.Price == default(double))
                 target.AddNotification(Notifications.Select(x => x.Invoke()));
-
-            return target.IsValid;
         }
     }
 }
