@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using amazingShop.Api.Localization;
 using amazingShop.Api.Mappers;
+using amazingShop.Api.Services.Users;
+using amazingShop.Api.Settings;
 using amazingShop.Domain.Core.Events;
 using amazingShop.Domain.Core.Notifications;
 using amazingShop.Domain.Entities;
@@ -12,8 +15,11 @@ using amazingShop.Domain.Repositories;
 using amazingShop.Infra;
 using amazingShop.Infra.Repositories.Events;
 using amazingShop.Infra.Repositories.Products;
+using amazingShop.Infra.Repositories.Users;
 using Askmethat.Aspnet.JsonLocalizer.Extensions;
+using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Localization;
@@ -21,6 +27,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 
 namespace amazingShop.Api
 {
@@ -36,6 +43,22 @@ namespace amazingShop.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = false,
+                        ValidateIssuer = false,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(Configuration["SecuritySettings:SigningKey"])
+                    )
+                    };
+                });
+
+
             var executingAssembly = Assembly.GetExecutingAssembly();
             var referencedAssemblies = executingAssembly.GetReferencedAssemblies().Select(a => Assembly.Load(a));
             var assemblies = new List<Assembly>();
@@ -43,9 +66,13 @@ namespace amazingShop.Api
             assemblies.AddRange(referencedAssemblies);
 
             services.AddMediatR(assemblies.ToArray());
-            ConfigureMappers.Build(services);
+
+            services.AddAutoMapper(typeof(Startup));
             ConfigureDatabase(services);
             ConfigureRepositories(services);
+
+            services.AddTransient<IAuthenticationService, AuthenticationService>();
+            services.AddSingleton(x => new AppSettings(Configuration["SecuritySettings:SigningKey"]));
 
             services.AddJsonLocalization(options =>
             {
@@ -63,6 +90,7 @@ namespace amazingShop.Api
         {
             services.AddScoped<IRepository<Product>, ProductRepository>();
             services.AddScoped<IRepository<Event>, EventRepository>();
+            services.AddScoped<IRepository<User>, UserRepository>();
             services.AddTransient<INotificationFactory, NotificationFactory>();
         }
 
@@ -100,6 +128,7 @@ namespace amazingShop.Api
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

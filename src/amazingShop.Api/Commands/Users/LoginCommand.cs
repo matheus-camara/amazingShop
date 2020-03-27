@@ -1,17 +1,14 @@
-using amazingShop.Api.Dtos;
 using amazingShop.Domain.Core.Commands;
 using MediatR;
 
 namespace amazingShop.Api.Commands.Users
 {
-    public sealed class RegisterUserCommand : Command, IRequest<RegisterUserCommand>
+    public sealed class LoginCommand : Command, IRequest<LoginCommand>
     {
         public string? Name { get; set; }
 
-        public string? Email { get; set; }
-
         public string? Password { get; set; }
 
-        public UserDto? Result { get; set; }
+        public string? Result { get; set; }
     }
 }

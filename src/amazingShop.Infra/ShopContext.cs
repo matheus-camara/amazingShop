@@ -13,10 +13,13 @@ namespace amazingShop.Infra
 
         public DbSet<Product> Products { get; } = default!;
 
+        public DbSet<User> Users { get; } = default!;
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.UseIdentityColumns();
             modelBuilder.ApplyConfiguration(new ProductMapping());
+            modelBuilder.ApplyConfiguration(new UserMapping());
             modelBuilder.ApplyConfiguration(new EventMapping());
         }
     }

@@ -5,7 +5,7 @@ namespace amazingShop.Domain.Core.Validators
 {
     public sealed class Validator<T> where T : class
     {
-        private ICollection<IRule<T>> _rules { get => _rules ??= new List<IRule<T>>(); set => _rules = value; }
+        private readonly ICollection<IRule<T>> _rules = new List<IRule<T>>();
 
         private T _target;
 

@@ -7,6 +7,7 @@ using amazingShop.Api.Commands.Products;
 using System.Threading;
 using amazingShop.Domain.Core.Notifications;
 using amazingShop.Domain.Core.Commands;
+using AutoMapper;
 
 namespace amazingShop.Api.CommandHandlers.Products
 {
@@ -16,16 +17,16 @@ namespace amazingShop.Api.CommandHandlers.Products
 
         private readonly INotificationFactory _notificationFactory;
 
-        private readonly Func<Product, ProductDto> _mapper;
+        private readonly IMapper _mapper;
 
         public async Task<GetProductCommand> Handle(GetProductCommand request, CancellationToken cancellationToken)
         {
             var result = await _repository.FindAsync(request.Id);
-            request.Result = result is null ? null : _mapper.Invoke(result);
+            request.Result = result is null ? null : _mapper.Map<ProductDto>(result);
             return request;
         }
 
-        public GetProductCommandHandler(IRepository<Product> repository, INotificationFactory notificationFactory, Func<Product, ProductDto> mapper)
+        public GetProductCommandHandler(IRepository<Product> repository, INotificationFactory notificationFactory, IMapper mapper)
             => (_repository, _notificationFactory, _mapper) = (repository, notificationFactory, mapper);
     }
 }

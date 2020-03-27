@@ -4,7 +4,7 @@ using amazingShop.Domain.Entities;
 
 namespace amazingShop.Domain.Rules.Users
 {
-    public class AllUserFieldsAreRequiredRule : Rule<User>
+    public sealed class AllUserFieldsAreRequiredRule : Rule<User>
     {
         public override void ApplyTo(User target)
         {

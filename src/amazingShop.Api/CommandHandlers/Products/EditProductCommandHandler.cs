@@ -9,6 +9,7 @@ using amazingShop.Domain.Entities;
 using amazingShop.Domain.Events.Products;
 using amazingShop.Domain.Repositories;
 using amazingShop.Domain.Rules.Products;
+using AutoMapper;
 using MediatR;
 
 namespace amazingShop.Api.CommandHandlers.Products
@@ -21,11 +22,11 @@ namespace amazingShop.Api.CommandHandlers.Products
 
         private readonly INotificationFactory _notificationFactory;
 
-        private readonly Func<EditProductCommand, Product> _mapper;
+        private readonly IMapper _mapper;
 
         public async Task<EditProductCommand> Handle(EditProductCommand request, CancellationToken cancellationToken)
         {
-            var product = _mapper.Invoke(request);
+            var product = _mapper.Map<Product>(request);
 
             new Validator<Product>(product)
                 .Add(new AllProductFieldsAreRequiredRule(() => _notificationFactory.Get("PRO-001")))
@@ -50,7 +51,7 @@ namespace amazingShop.Api.CommandHandlers.Products
             return request;
         }
 
-        public EditProductCommandHandler(IRepository<Product> repository, IMediator mediator, INotificationFactory notificationFactory, Func<EditProductCommand?, Product> mapper)
+        public EditProductCommandHandler(IRepository<Product> repository, IMediator mediator, INotificationFactory notificationFactory, IMapper mapper)
             => (_mediator, _repository, _notificationFactory, _mapper) = (mediator, repository, notificationFactory, mapper);
     }
 }

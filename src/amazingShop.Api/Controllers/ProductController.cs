@@ -7,12 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace amazingShop.Api.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController, AllowAnonymous]
+    [ApiController, Authorize]
     public sealed class ProductController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        [HttpGet("{skip:min(0)}/{take:min(1)}")]
+        [HttpGet("{skip:min(0)}/{take:min(1)}"), AllowAnonymous]
         public async Task<IActionResult> GetAsync([FromRoute] GetProductsCommand command)
         {
             var result = await _mediator.Send(command);
@@ -23,7 +23,7 @@ namespace amazingShop.Api.Controllers
             return NoContent();
         }
 
-        [HttpGet("{id:min(1)}")]
+        [HttpGet("{id:min(1)}"), AllowAnonymous]
         public async Task<IActionResult> GetAsync([FromRoute] GetProductCommand command)
         {
             var result = await _mediator.Send(command);

@@ -14,6 +14,8 @@ namespace amazingShop.Infra.Mappings
 
             builder.HasAlternateKey(p => p.Email);
 
+            builder.HasAlternateKey(p => p.Name);
+
             builder.Ignore(p => p.Notifications);
 
             builder.Property(p => p.Name).HasMaxLength(100).IsRequired();
@@ -24,7 +26,7 @@ namespace amazingShop.Infra.Mappings
 
             builder.Property(p => p.Salt).IsRequired();
 
-            builder.HasIndex(p => p.Email);
+            builder.HasIndex(p => p.Name);
         }
     }
 }

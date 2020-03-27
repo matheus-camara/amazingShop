@@ -11,6 +11,42 @@
       "pt-BR": "Todos os campos são obrigatórios"
     }
   },
+  "USE-002": {
+    "Values": {
+      "en-US": "Username is required",
+      "pt-BR": "Nome de usuário não informado"
+    }
+  },
+  "USE-003": {
+    "Values": {
+      "en-US": "Password is required",
+      "pt-BR": "Senha não informada"
+    }
+  },
+  "USE-004": {
+    "Values": {
+      "en-US": "Username already in use",
+      "pt-BR": "Nome de usuário já cadastrado"
+    }
+  },
+  "USE-005": {
+    "Values": {
+      "en-US": "Email already in use",
+      "pt-BR": "Email já cadastrado"
+    }
+  },
+  "USE-006": {
+    "Values": {
+      "en-US": "Username not found",
+      "pt-BR": "Nome de usuário não encontrado"
+    }
+  },
+  "USE-007": {
+    "Values": {
+      "en-US": "Invalid password",
+      "pt-BR": "Senha incorreta"
+    }
+  },
   "APP-001": {
     "Values": {
       "en-US": "Invalid Identifier",

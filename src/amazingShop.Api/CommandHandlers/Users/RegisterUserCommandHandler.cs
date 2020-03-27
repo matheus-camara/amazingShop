@@ -9,17 +9,16 @@ using amazingShop.Domain.Core.Notifications;
 using amazingShop.Domain.Core.Validators;
 using amazingShop.Domain.Entities;
 using amazingShop.Domain.Repositories;
+using AutoMapper;
 using MediatR;
 
 namespace amazingShop.Api.CommandHandlers.Users
 {
     public sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand>
     {
-        private readonly IMediator _mediator;
-
         private readonly IAuthenticationService _authService;
 
-        private readonly Func<RegisterUserCommand, User> _mapper;
+        private readonly IMapper _mapper;
 
         private readonly INotificationFactory _notificationFactory;
 
@@ -34,17 +33,31 @@ namespace amazingShop.Api.CommandHandlers.Users
             if (!request.IsValid)
                 return request;
 
-            var user = _authService.Register(request.Name ?? string.Empty, request.Email ?? string.Empty, request.Password ?? string.Empty);
+            var found = await SeachUserWithSameNameOrEmail(request.Name, request.Email);
 
-            await _repository.AddAsync(user);
-            await _repository.SaveAsync();
+            if (found is null)
+            {
+                var user = _authService.Register(request.Name ?? string.Empty, request.Email ?? string.Empty, request.Password ?? string.Empty);
+                await _repository.AddAsync(user);
+                await _repository.SaveAsync();
+            }
+            else
+            {
+                if (found?.Name == request.Name)
+                    request.AddNotification(_notificationFactory.Get("USE-004"));
+
+                if (found?.Email == request.Email)
+                    request.AddNotification(_notificationFactory.Get("USE-005"));
+            }
 
             return request;
         }
 
-        public RegisterUserCommandHandler(IMediator mediator, IAuthenticationService authService, Func<RegisterUserCommand, User> mapper, INotificationFactory notificationFactory, IRepository<User> repository)
+        private async Task<User?> SeachUserWithSameNameOrEmail(string? name, string? email)
+            => await _repository.FindAsync(x => x.Name == name || x.Email == email);
+
+        public RegisterUserCommandHandler(IAuthenticationService authService, IMapper mapper, INotificationFactory notificationFactory, IRepository<User> repository)
         {
-            _mediator = mediator;
             _authService = authService;
             _mapper = mapper;
             _notificationFactory = notificationFactory;
