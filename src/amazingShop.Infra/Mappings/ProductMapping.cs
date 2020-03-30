@@ -24,16 +24,6 @@ namespace amazingShop.Infra.Mappings
             builder.Property(p => p.ImageUrl).HasMaxLength(512).IsRequired();
 
             builder.HasOne(p => p.AddedBy).WithMany(x => x.Products);
-
-            builder.HasData(
-                Enumerable.Range(1, 20)
-                .Select(x => new Product(
-                    id: x,
-                    name: "camiseta",
-                    description: "camiseta",
-                    price: 18.28,
-                    imageUrl: "https://wallpaperplay.com/walls/full/2/c/2/58072.jpg",
-                    addedBy: new User(1))));
         }
     }
 }

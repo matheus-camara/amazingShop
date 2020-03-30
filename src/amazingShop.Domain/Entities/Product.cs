@@ -2,6 +2,12 @@
 {
     public sealed class Product : EntityBase
     {
+        private Product() : base(default!)
+        {
+            Name = Description = ImageUrl = default!;
+            AddedBy = default!;
+            Price = default!;
+        }
         public Product(long id, User addedBy) : base(id)
         {
             AddedBy = addedBy;
@@ -22,7 +28,7 @@
 
         public string ImageUrl { get; private set; } = default!;
 
-        public User AddedBy { get; }
+        public User AddedBy { get; private set; }
 
         public void Update(Product updated)
         {

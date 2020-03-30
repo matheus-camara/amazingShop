@@ -27,7 +27,7 @@ namespace amazingShop.Domain.Entities
 
         public string Email { get; }
 
-        public IEnumerable<Product> Products { get; } = default!;
+        public ICollection<Product> Products { get; } = new List<Product>();
 
         public byte[]? Password { get; }
 

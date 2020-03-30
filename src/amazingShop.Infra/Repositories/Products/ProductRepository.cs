@@ -1,5 +1,7 @@
-﻿using amazingShop.Domain.Entities;
+﻿using System.Threading.Tasks;
+using amazingShop.Domain.Entities;
 using amazingShop.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace amazingShop.Infra.Repositories.Products
 {

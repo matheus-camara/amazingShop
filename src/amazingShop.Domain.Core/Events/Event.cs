@@ -1,7 +1,5 @@
 using System;
 using MediatR;
-using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace amazingShop.Domain.Core.Events
 {
@@ -13,13 +11,6 @@ namespace amazingShop.Domain.Core.Events
 
         public string Type { get; private set; } = default!;
 
-        public string Data { get; private set; } = default!;
-
-        protected void SaveData()
-        {
-            Timestamp = DateTime.Now;
-            Type = this.GetType().Name;
-            Data = JsonSerializer.Serialize(this);
-        }
+        public string Data { get; protected set; } = default!;
     }
 }

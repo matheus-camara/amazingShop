@@ -11,7 +11,8 @@ namespace amazingShop.Api.Mappers
         public AutoMapper()
         {
             CreateMap<AddProductCommand, Product>()
-                .ForMember(x => x.AddedBy, z => z.MapFrom(u => new User(u.User)));
+                .ForMember(x => x.AddedBy,
+                    s => s.MapFrom(r => new User(r.User)));
 
             CreateMap<EditProductCommand, Product>();
             CreateMap<DeleteProductCommand, Product>();

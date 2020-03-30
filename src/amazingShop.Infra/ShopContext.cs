@@ -8,7 +8,6 @@ namespace amazingShop.Infra
     {
         public ShopContext(DbContextOptions<ShopContext> optionsBuilder) : base(optionsBuilder)
         {
-            Database.Migrate();
         }
 
         public DbSet<Product> Products { get; } = default!;

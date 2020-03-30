@@ -1,3 +1,4 @@
+using System.Text.Json;
 using amazingShop.Domain.Core.Events;
 using amazingShop.Domain.Entities;
 using MediatR;
@@ -8,13 +9,12 @@ namespace amazingShop.Domain.Events.Products
     {
         private Product Deleted { get; set; }
 
-        private long DeletedBy { get; set; }
+        private User DeletedBy { get; set; }
 
-        public ProductDeletedEvent(Product deleted, long deletedBy)
+        public ProductDeletedEvent(Product deleted, User deletedBy)
         {
             Deleted = deleted;
             DeletedBy = deletedBy;
-            SaveData();
         }
     }
 }

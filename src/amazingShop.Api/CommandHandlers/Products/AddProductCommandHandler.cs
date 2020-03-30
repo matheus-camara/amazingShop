@@ -16,7 +16,7 @@ namespace amazingShop.Api.CommandHandlers.Products
 {
     public sealed class AddProductCommandHandler : ICommandHandler<AddProductCommand>
     {
-        private readonly IRepository<Product> _repository;
+        private readonly IRepository<User> _repository;
 
         private readonly IMediator _mediator;
 
@@ -26,7 +26,7 @@ namespace amazingShop.Api.CommandHandlers.Products
 
         public async Task<AddProductCommand> Handle(AddProductCommand request, CancellationToken cancellationToken)
         {
-            var product = _mapper.Map<Product>(request);
+            var product = _mapper.Map<AddProductCommand, Product>(request);
 
             new Validator<Product>(product)
                 .Add(new AllProductFieldsAreRequiredRule(() => _notificationFactory.Get("PRO-001")))
@@ -34,7 +34,8 @@ namespace amazingShop.Api.CommandHandlers.Products
 
             if (product.IsValid)
             {
-                await _repository.AddAsync(product);
+                var user = await _repository.FindAsync(product.AddedBy.Id);
+                user?.Products.Add(product);
                 await _repository.SaveAsync();
                 await _mediator.Publish(new ProductAddedEvent(product));
                 request.Result = product.Id;
@@ -47,7 +48,7 @@ namespace amazingShop.Api.CommandHandlers.Products
             return request;
         }
 
-        public AddProductCommandHandler(IRepository<Product> repository, IMediator mediator, INotificationFactory notificationFactory, IMapper mapper)
+        public AddProductCommandHandler(IRepository<User> repository, IMediator mediator, INotificationFactory notificationFactory, IMapper mapper)
             => (_repository, _mediator, _notificationFactory, _mapper) = (repository, mediator, notificationFactory, mapper);
     }
 }

@@ -14,7 +14,6 @@ namespace amazingShop.Domain.Events.Products
         {
             Added = added;
             AddedBy = added.AddedBy;
-            SaveData();
         }
     }
 }

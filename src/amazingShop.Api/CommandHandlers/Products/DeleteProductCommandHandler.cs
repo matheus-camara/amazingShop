@@ -30,7 +30,7 @@ namespace amazingShop.Api.CommandHandlers.Products
 
             _repository.Delete(result);
             await _repository.SaveAsync();
-            await _mediator.Publish(new ProductDeletedEvent(result, request.User));
+            await _mediator.Publish(new ProductDeletedEvent(result, result.AddedBy));
 
             return request;
         }
