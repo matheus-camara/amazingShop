@@ -44,7 +44,7 @@ namespace amazingShop.Api.Services.Users
 
         private bool CheckPassword(byte[] salt, byte[] passwordHash, string password)
         {
-            using (var hmac = new System.Security.Cryptography.HMACSHA512(salt))
+            using (var hmac = new HMACSHA512(salt))
             {
                 var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
 

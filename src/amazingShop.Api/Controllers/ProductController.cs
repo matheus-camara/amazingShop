@@ -37,6 +37,7 @@ namespace amazingShop.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody] AddProductCommand command)
         {
+            command.User = User.GetIdentifier();
             var result = await _mediator.Send(command);
 
             if (result.IsValid)
@@ -48,6 +49,7 @@ namespace amazingShop.Api.Controllers
         [HttpPut("{id:min(1)}")]
         public async Task<IActionResult> PutAsync([FromRoute] long id, [FromBody] EditProductCommand command)
         {
+            command.User = User.GetIdentifier();
             var result = await _mediator.Send(command);
 
             if (result.IsValid)
@@ -59,6 +61,7 @@ namespace amazingShop.Api.Controllers
         [HttpDelete("{id:min(1)}")]
         public async Task<IActionResult> DeleteAsync([FromRoute] DeleteProductCommand command)
         {
+            command.User = User.GetIdentifier();
             var result = await _mediator.Send(command);
 
             if (result.IsValid)

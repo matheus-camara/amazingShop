@@ -20,18 +20,24 @@ namespace amazingShop.Api.CommandHandlers.Products
 
         public async Task<DeleteProductCommand> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
         {
-            if (request.Id == default!)
-                return HandleNotFound(request);
-
             var result = await _repository.FindAsync(request.Id);
 
             if (result is null)
                 return HandleNotFound(request);
 
+            if (result.AddedBy.Id != request.User)
+                return HandleNoPermission(request);
+
             _repository.Delete(result);
             await _repository.SaveAsync();
-            await _mediator.Publish(new ProductDeletedEvent(result, default));
+            await _mediator.Publish(new ProductDeletedEvent(result, request.User));
 
+            return request;
+        }
+
+        public DeleteProductCommand HandleNoPermission(DeleteProductCommand request)
+        {
+            request.AddNotification(_notificationFactory.Get("USE-008"));
             return request;
         }
 

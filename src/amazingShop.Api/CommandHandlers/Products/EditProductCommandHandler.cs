@@ -35,19 +35,28 @@ namespace amazingShop.Api.CommandHandlers.Products
             if (product.IsValid)
             {
                 var found = await _repository.FindAsync(product.Id);
-                if (found != null)
-                {
-                    await _mediator.Publish(new ProductEditedEvent(default, found, product));
-                    found.Update(product);
-                    _repository.Edit(found);
-                    await _repository.SaveAsync();
-                }
+                if (found is null)
+                    return request;
+
+                if (found.AddedBy.Id != request.User)
+                    return HandleNoPermission(request);
+
+                await _mediator.Publish(new ProductEditedEvent(request.User, found, product));
+                found.Update(product);
+                _repository.Edit(found);
+                await _repository.SaveAsync();
             }
             else
             {
                 request.AddNotification(product.Notifications);
             }
 
+            return request;
+        }
+
+        public EditProductCommand HandleNoPermission(EditProductCommand request)
+        {
+            request.AddNotification(_notificationFactory.Get("USE-008"));
             return request;
         }
 

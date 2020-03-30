@@ -8,9 +8,12 @@ namespace amazingShop.Domain.Events.Products
     {
         private Product Added { get; set; }
 
+        private User AddedBy { get; set; }
+
         public ProductAddedEvent(Product added)
         {
             Added = added;
+            AddedBy = added.AddedBy;
             SaveData();
         }
     }

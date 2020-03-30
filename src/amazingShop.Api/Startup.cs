@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using amazingShop.Api.Localization;
-using amazingShop.Api.Mappers;
 using amazingShop.Api.Services.Users;
 using amazingShop.Api.Settings;
 using amazingShop.Domain.Core.Events;
@@ -96,8 +95,8 @@ namespace amazingShop.Api
 
         public void ConfigureDatabase(IServiceCollection services)
         {
-            services.AddDbContext<ShopContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AmazingShopLocal")));
-            services.AddDbContext<DbContext, ShopContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AmazingShopLocal")));
+            services.AddDbContext<ShopContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AmazingShopLocal")), ServiceLifetime.Singleton);
+            services.AddDbContext<DbContext, ShopContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AmazingShopLocal")), ServiceLifetime.Singleton);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

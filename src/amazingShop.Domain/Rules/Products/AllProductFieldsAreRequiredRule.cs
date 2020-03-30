@@ -14,6 +14,9 @@ namespace amazingShop.Domain.Rules.Products
 
         public override void ApplyTo(Product target)
         {
+            if (target.AddedBy is null)
+                throw new ArgumentNullException("Product.AddedBy");
+
             if (string.IsNullOrEmpty(target.Name) || string.IsNullOrEmpty(target.Description) || string.IsNullOrEmpty(target.ImageUrl) || target.Price == default(double))
                 target.AddNotification(Notifications.Select(x => x.Invoke()));
         }
