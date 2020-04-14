@@ -21,7 +21,14 @@ namespace amazingShop.Api.CommandHandlers.Products
 
         public async Task<GetProductsCommand> Handle(GetProductsCommand request, CancellationToken cancellationToken)
         {
-            request.Result = await _repository.GetAsync(request.Skip, request.Take, p => _mapper.Map<ProductDto>(p));
+            request.Result = await _repository.GetAsync(
+                skip: request.Skip,
+                take: request.Take,
+                predicate: x => request.Filter == null
+                   || (((request.Filter.PriceStart == null || request.Filter.PriceStart.Value <= x.Price) && (request.Filter.PriceEnd == null || request.Filter.PriceEnd.Value >= x.Price))
+                        && (request.Filter.UserId == null || request.Filter.UserId.Value == x.AddedBy.Id)),
+                selector: p => _mapper.Map<ProductDto>(p));
+
             request.Total = await _repository.CountAsync();
             return request;
         }

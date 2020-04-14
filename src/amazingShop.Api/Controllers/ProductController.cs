@@ -13,8 +13,10 @@ namespace amazingShop.Api.Controllers
         private readonly IMediator _mediator;
 
         [HttpGet("{skip:min(0)}/{take:min(1)}"), AllowAnonymous]
-        public async Task<IActionResult> GetAsync([FromRoute] GetProductsCommand command)
+        public async Task<IActionResult> GetAsync([FromRoute] GetProductsCommand command, [FromQuery] GetProductsFilter filter)
         {
+            command.Filter = filter;
+
             var result = await _mediator.Send(command);
 
             if (result.IsValid)

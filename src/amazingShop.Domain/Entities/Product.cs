@@ -30,6 +30,8 @@
 
         public User AddedBy { get; private set; }
 
+        public void setAddedBy(User user) => AddedBy = user;
+
         public void Update(Product updated)
         {
             Name = updated.Name;

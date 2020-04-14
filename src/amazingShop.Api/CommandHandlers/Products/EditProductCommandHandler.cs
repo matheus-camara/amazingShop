@@ -41,10 +41,10 @@ namespace amazingShop.Api.CommandHandlers.Products
                 if (found.AddedBy.Id != request.User)
                     return HandleNoPermission(request);
 
-                await _mediator.Publish(new ProductEditedEvent(found.AddedBy, found, product));
                 found.Update(product);
                 _repository.Edit(found);
                 await _repository.SaveAsync();
+                await _mediator.Publish(new ProductEditedEvent(found.AddedBy));
             }
             else
             {

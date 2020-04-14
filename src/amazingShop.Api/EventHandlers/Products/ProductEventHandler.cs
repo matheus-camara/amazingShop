@@ -23,6 +23,7 @@ namespace amazingShop.Api.EventHandlers.Products
 
         private async Task CreateLog(Event notification)
         {
+            notification.SetData();
             await _eventRepository.AddAsync(notification);
             await _eventRepository.SaveAsync();
         }

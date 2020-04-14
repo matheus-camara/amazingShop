@@ -18,23 +18,32 @@ namespace amazingShop.Infra.Repositories
 
         public virtual async Task<IList<T>> GetAsync() => await RawGet().ToListAsync();
 
-        public virtual async Task<IList<TResult>> GetAsync<TResult>(Expression<Func<T, TResult>> selector) => await RawGet().Select(selector).ToListAsync();
+        public virtual async Task<IList<TResult>> GetAsync<TResult>(Expression<Func<T, TResult>> selector)
+            => await RawGet().Select(selector).ToListAsync();
 
-        public virtual async Task<IList<TResult>> GetAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector) => await RawGet().Where(predicate).Select(selector).ToListAsync();
+        public virtual async Task<IList<TResult>> GetAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector)
+            => await RawGet().Where(predicate).Select(selector).ToListAsync();
 
-        public virtual async Task<IList<TResult>> GetAsync<TResult>(int skip, int take, Expression<Func<T, TResult>> selector) => await RawGet().Skip(skip).Take(take).Select(selector).ToListAsync();
+        public virtual async Task<IList<TResult>> GetAsync<TResult>(int skip, int take, Expression<Func<T, TResult>> selector)
+            => await RawGet().Skip(skip).Take(take).Select(selector).ToListAsync();
 
-        public virtual async Task<IList<TResult>> GetAsync<TResult>(int skip, int take, Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector) => await RawGet().Where(predicate).Skip(skip).Take(take).Select(selector).ToListAsync();
+        public virtual async Task<IList<TResult>> GetAsync<TResult>(int skip, int take, Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector)
+            => await RawGet().Where(predicate).Skip(skip).Take(take).Select(selector).ToListAsync();
 
-        public virtual async Task<IList<T>> GetAsync(int skip, int take) => await RawGet().Skip(skip).Take(take).ToListAsync();
+        public virtual async Task<IList<T>> GetAsync(int skip, int take)
+            => await RawGet().Skip(skip).Take(take).ToListAsync();
 
-        public virtual async Task<IList<T>> GetAsync(int skip, int take, Expression<Func<T, bool>> predicate) => await RawGet().Where(predicate).Skip(skip).Take(take).ToListAsync();
+        public virtual async Task<IList<T>> GetAsync(int skip, int take, Expression<Func<T, bool>> predicate)
+            => await RawGet().Where(predicate).Skip(skip).Take(take).ToListAsync();
 
-        public virtual async Task<IList<T>> GetAsync(Expression<Func<T, bool>> predicate) => await RawGet().Where(predicate).ToListAsync();
+        public virtual async Task<IList<T>> GetAsync(Expression<Func<T, bool>> predicate)
+            => await RawGet().Where(predicate).ToListAsync();
 
-        public virtual async Task<T?> FindAsync(Expression<Func<T, bool>> predicate) => await RawGet().SingleOrDefaultAsync(predicate);
+        public virtual async Task<T?> FindAsync(Expression<Func<T, bool>> predicate)
+            => await RawGet().SingleOrDefaultAsync(predicate);
 
-        public virtual async Task<T?> FindAsync(long primaryKey) => await Context.FindAsync<T>(primaryKey);
+        public virtual async Task<T?> FindAsync(long primaryKey)
+            => await Context.FindAsync<T>(primaryKey);
 
         public virtual async Task<TResult?> FindAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector) where TResult : class
             => await RawGet().Where(predicate).Select(selector).SingleOrDefaultAsync(null);

@@ -11,10 +11,11 @@ namespace amazingShop.Api.Mappers
         public AutoMapper()
         {
             CreateMap<AddProductCommand, Product>()
-                .ForMember(x => x.AddedBy,
-                    s => s.MapFrom(r => new User(r.User)));
+                .AfterMap((s, d) => d.setAddedBy(new User(s.User)));
 
-            CreateMap<EditProductCommand, Product>();
+            CreateMap<EditProductCommand, Product>()
+                .AfterMap((s, d) => d.setAddedBy(new User(s.User)));
+
             CreateMap<DeleteProductCommand, Product>();
 
             CreateMap<Product, ProductDto>().ReverseMap();
@@ -25,6 +26,7 @@ namespace amazingShop.Api.Mappers
 
             CreateMap<User, UserDto>();
 
+            AddValueToObjectsMapping();
             AddIgnores();
         }
 
@@ -34,6 +36,11 @@ namespace amazingShop.Api.Mappers
             AddGlobalIgnore("_notifications");
             AddGlobalIgnore("HasNotification");
             AddGlobalIgnore("IsValid");
+        }
+
+        public void AddValueToObjectsMapping()
+        {
+            CreateMap<long, User>().ConvertUsing(x => new User(x));
         }
     }
 }

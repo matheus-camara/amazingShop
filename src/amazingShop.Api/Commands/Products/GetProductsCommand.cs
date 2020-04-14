@@ -17,5 +17,16 @@ namespace amazingShop.Api.Commands.Products
         public IEnumerable<ProductDto> Result { get; set; } = Enumerable.Empty<ProductDto>();
 
         public override bool IsValid => Result?.Any() ?? false;
+
+        public GetProductsFilter? Filter { get; set; }
+    }
+
+    public sealed class GetProductsFilter
+    {
+        public long? UserId { get; set; }
+
+        public double? PriceStart { get; set; }
+
+        public double? PriceEnd { get; set; }
     }
 }
